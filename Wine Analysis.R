@@ -13,7 +13,7 @@ library(tidyverse)
 library(factoextra)
 
 #import the data
-wine <- read.csv('C:/Users/Ashley/Desktop/SAPio_DataScience_Challenge.csv')
+wine <- read.csv('C:/Users/Ashley/Desktop/wine.csv')
 # the data has 15 variables and 6,497 observations
 
 
@@ -64,7 +64,7 @@ wine$residual.sugar<- NULL
 
 
 # Train/Test Split --------------------------------------------------------
-#split the data into test and training sets 
+#split the data into test and training sets
 indexes <- sample(1:nrow(wine), size=0.3*nrow(wine))
 test <- wine[indexes,]
 train <- wine[-indexes,]
@@ -82,7 +82,7 @@ win.graph()
 ggpairs(wine_continuous)
 # fixed.acidity and astringency.rating have a correlation of 0.99, free.sulfur.dioxide and total.sulfur.dioxide have a correlation of 0.729
 
-#since they have such a high correlation let's choose one. After googling the difference, I think that free has a smaller range when measuring the sulfur dioide in parts per million. Let's 
+#since they have such a high correlation let's choose one. After googling the difference of the terms, I think that free has a smaller range when measuring the sulfur dioxide in parts per million. Let's 
 #keep the total.sulfur.dioxide.
 train$free.sulfur.dioxide<- NULL
 test$free.sulfur.dioxide<- NULL
@@ -141,16 +141,14 @@ wine_mice$imp$astringency.rating
 wine_mice$imp$pH
 wine_mice$imp$vintage
 
-
 #creating the imputed dataframe instead of the imputation object that is created 
 wine_mice_cmplt_train <- complete(wine_mice, 5) #replaced with values of the 5th imputed dataset
 
-
-#checking the inputation 
+#checking the imputation 
 win.graph()
 densityplot(wine_mice)
-# we see that the imputed values for each follow the distribution of the origional variable
-#another visual to look at the imputed values vs the origional
+# we see that the imputed values for each follow the distribution of the original variable
+#another visual to look at the imputed values vs the original
 win.graph()
 stripplot(wine_mice, pch=20, cex=1.2)
 
@@ -362,11 +360,11 @@ fviz_cluster(k8, data=wine_std)
 # Then, I ran k means clustering to see if that would provide any information, but that was inconclusive. 
 # From the regressions the variables that were significant in both for prediciting quality rating were: volatile.acidity and alcohol. 
 # Next Steps: 
-#   conitnue checking the logisitic regression results
-#   try a Decision Tree to see if it splits on the same variables that were significant in the regressions
-#   look into additional data to help
+#   Continue checking the logisitic regression results
+#   Try a Decision Tree to see if it splits on the same variables that were significant in the regressions
+#   Look into additional data to help explain more
 #       maybe the judge plays a role in the score
 #       more detailed red/white get the type of wine
-#       where the wine was made
+#       weather- the quality of the harvest of the vintage year
 
 
